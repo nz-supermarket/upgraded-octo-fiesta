@@ -1,0 +1,26 @@
+name: Ruby
+
+on:
+  schedule:
+  - cron: "*/5 * * * 1-5"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 2.7
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7.1
+    - name: Run quotes script
+      run: |
+        gem install vessel
+        ruby quotes.rb > quotes.json
+    - name: Upload quotes.json
+      uses: actions/upload-artifact@v1
+      with:
+        name: quotes.json
+        path: quotes.json
